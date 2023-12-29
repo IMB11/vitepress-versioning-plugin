@@ -25,7 +25,9 @@ export default defineVersionedConfig(__dirname, {
 
 ## Adding Versions
 
-To add a version, simply add `.vitepress/sidebars/versioned/{version}.json`.
+To add a version, simply add a directory to the `versions` folder in the root of your vitepress site. 
+
+To add a sidebar, put your sidebar into `.vitepress/sidebars/versioned/{version}.json`.
 
 If you have locales in the version, localized sidebars can be found at `.vitepress/sidebars/versioned/{version}-{locale}.json`.
 
