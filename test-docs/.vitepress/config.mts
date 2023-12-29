@@ -31,8 +31,14 @@ export default defineVersionedConfig(__dirname, {
     sidebar: {
       '/': [
         {
-          'text': '1.0.0',
-          'link': '/'
+          text: '1.0.0',
+          link: '/'
+        }
+      ],
+      '/fr/': [
+        {
+          text: '1.0.0 but in french',
+          link: '/fr/'
         }
       ]
     },

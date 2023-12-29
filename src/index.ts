@@ -178,7 +178,5 @@ export default function defineVersionedConfig(dirname: string, options: Versione
     ...sidebars,
   };
 
-  console.log(sidebars);
-
   return options;
 };
