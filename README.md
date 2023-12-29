@@ -25,18 +25,19 @@ export default defineVersionedConfig(__dirname, {
 
 ## Adding Versions
 
-To add a version, simply add `/versions/<version>` to your docs directory and copy the old content into that folder.
+To add a version, simply add `.vitepress/sidebars/versioned/{version}.json`.
 
-To add a sidebar for that version, add a `sidebar.json` file to the version folder. See the example in `test-docs` for an example that stores versioned sidebars in the `.vitepress` folder.
+If you have locales in the version, localized sidebars can be found at `.vitepress/sidebars/versioned/{version}-{locale}.json`.
 
 ## Configuration
 
-| Property                                   | Description                                                                      | Default Value                                                        |
-| ------------------------------------------ | -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `versioning.latestVersion`                 | The latest (current/root) version of the project.                                | None                                                                 |
-| `versioning.switcher.text`                 | The text to display on the version switcher button.                              | 'Switch Version'                                                     |
-| `versioning.switcher.includeLatestVersion` | Should the latest (root) version be included in the version switcher?            | `true`                                                               |
-| `versioning.sidebars.processSidebarURLs`   | Whether or not to process sidebar URLs. Uses the `sidebarUrlProcessor` function. | `true`                                                               |
-| `versioning.sidebars.sidebarPathResolver`  | The function that resolves the path to the sidebar file for a given version.     | `(version) => /versions/${version}/sidebar.json`                     |
-| `versioning.sidebars.sidebarUrlProcessor`  | The function that processes sidebar URLs.                                        | `(url, version) => /${version}${url}`                                |
-| `versioning.rewrites.rewriteProcessor`     | The function that processes rewrite URLs.                                        | `(inputFilePath, version) => inputFilePath.replace('versions/', '')` |
+| Property                                     | Description                                                                      | Default Value                                                                                                         |
+| -------------------------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `versioning.latestVersion`                   | The latest (current/root) version of the project.                                | None                                                                                                                  |
+| `versioning.switcher.text`                   | The text to display on the version switcher button.                              | 'Switch Version'                                                                                                      |
+| `versioning.switcher.includeLatestVersion`   | Should the latest (root) version be included in the version switcher?            | `true`                                                                                                                |
+| `versioning.sidebars.processSidebarURLs`     | Whether or not to process sidebar URLs. Uses the `sidebarUrlProcessor` function. | `true`                                                                                                                |
+| `versioning.sidebars.sidebarPathResolver`    | The function that resolves the path to the sidebar file for a given version.     | `(version) => '.vitepress/sidebars/versioned/${version}.json'`                                                        |
+| `versioning.sidebars.sidebarUrlProcessor`    | The function that processes sidebar URLs.                                        | `(url, version) => '/${version}${url}'`                                                                               |
+| `versioning.rewrites.rewriteProcessor`       | The function that processes rewrite URLs.                                        | `(inputFilePath, version) => inputFilePath.replace('versions/', '')`                                                  |
+| `versioning.rewrites.localeRewriteProcessor` | The function that processes rewrite URLs for localized versions.                 | `(inputFilePath, version, locale) => '${locale}/' + inputFilePath.replace('versions/', '').replace('${locale}/', '')` |

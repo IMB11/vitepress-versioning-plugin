@@ -1,14 +1,24 @@
 import { defineConfig } from 'vitepress'
-import defineVersionedConfig, { vitepressSidebarResolver } from '../../src'
+import defineVersionedConfig from '../../src'
 
 // https://vitepress.dev/reference/site-config
 export default defineVersionedConfig(__dirname, {
   versioning: {
     latestVersion: '1.0.0',
-    sidebars: {
-      sidebarPathResolver: vitepressSidebarResolver
+  },
+
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en'
+    },
+    fr: {
+      label: 'French',
+      lang: 'fr',
+      link: '/fr/'
     }
   },
+
   title: "Versioning Test",
   description: "A test versioning site.",
   themeConfig: {

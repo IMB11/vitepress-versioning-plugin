@@ -65,6 +65,35 @@ export function getSidebar(dirname: string, version: Version, config: VersionedC
   return [];
 }
 
+export function getLocaleSidebar(dirname: string, version: Version, locale: string, config: VersionedConfig): DefaultTheme.Sidebar {
+  // Same thing as above, but sidebar file is `version-locale.json` and URLs must also be prefixed with the locale.
+
+  // @ts-ignore
+  const sidebarRootPath = (config.versioning.sidebars as VersionedSidebarConfig).sidebarPathResolver(version + `-${locale}`);
+  const sidebarPath = path.resolve(dirname, "..", sidebarRootPath);
+  if (fs.existsSync(sidebarPath)) {
+    // JSON5 can easily parse both JSON and JSON5 files, so might as well just keep it.
+    const sidebar = JSON5.parse(fs.readFileSync(sidebarPath, 'utf-8'))
+
+    if (!Array.isArray(sidebar)) {
+      // Must be a multisidebar instance.
+      const multisidebar = sidebar as DefaultTheme.SidebarMulti;
+
+      // Replace all links in the sidebar with their versioned equivalents.
+      Object.keys(multisidebar).forEach(key => {
+        multisidebar[key] = replaceLinksRecursive(multisidebar[key] as DefaultTheme.SidebarItem[], `${locale}/` + version, config)
+      });
+
+      return multisidebar;
+    }
+
+    // Replace all links in the sidebar with their versioned equivalents.
+    return replaceLinksRecursive(sidebar, `/${locale}` + version, config)
+  }
+
+  return [];
+}
+
 /**
  * Generates a sidebar for each version in the "versions" folder.
  * @returns {DefaultTheme.SidebarMulti} A map of versions to their sidebars.
@@ -83,6 +112,23 @@ export function generateVersionSidebars(dirname: string, versions: Version[], co
       Object.keys(versionSidebar).forEach(key => {
         versionSidebars[`/${version}${key}`] = versionSidebar[key] as DefaultTheme.SidebarItem[]
       });
+    }
+
+    // Repeat for locales (version-locale.json)
+    const locales = Object.keys(config.locales ?? {});
+
+    for (const locale of locales) {
+      if (locale === 'root') continue;
+
+      const versionLocaleSidebar = getLocaleSidebar(dirname, version, locale, config);
+
+      if (Array.isArray(versionLocaleSidebar)) {
+        versionSidebars[`/${locale}/${version}/`] = versionLocaleSidebar as DefaultTheme.SidebarItem[]
+      } else {
+        Object.keys(versionLocaleSidebar).forEach(key => {
+          versionSidebars[`/${locale}/${version}${key}`] = versionLocaleSidebar[key] as DefaultTheme.SidebarItem[]
+        });
+      }
     }
   }
 

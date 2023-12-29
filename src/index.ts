@@ -4,14 +4,12 @@ import clc from "cli-color";
 import path from 'node:path';
 import fs from "node:fs"
 
-import { getLogger, vitepressSidebarResolver } from './util';
+import { getLogger } from './util';
 import { generateVersionSwitcher } from './switcher';
 import { generateVersionRewrites } from './rewrites';
 import { generateVersionSidebars } from './sidebars';
 
 export type Version = string;
-
-export { vitepressSidebarResolver }
 
 export type VersionSwitcherConfig = {
   /**
@@ -36,7 +34,7 @@ export type VersionedSidebarConfig = {
    * The function that resolves the path to the sidebar file for a given version.
    * @param version The version to resolve the sidebar path for.
    * @returns The path to the sidebar file for the given version.
-   * @default (version) => `/versions/${version}/sidebar.json`
+   * @default (version) => `.vitepress/sidebars/versioned/${version}.json`
    */
   sidebarPathResolver?: (version: Version) => string;
 
@@ -60,6 +58,16 @@ export type VersionRewritesConfig = {
    * @example // Turns `/versions/1.0.0/index.md` into `/1.0.0/index.md`
    */
   rewriteProcessor?: (inputFilePath: string, version: Version) => string;
+
+  /**
+   * The function that processes rewrite URLs for locale folders.
+   * @param inputFilePath The input file path to process.
+   * @param version The version to process the URL for.
+   * @param locale The locale to process the URL for.
+   * @default (inputFilePath, version, locale) => `${locale}/` + inputFilePath.replace(`versions/`, ``).replace(`${locale}/`, ``)
+   * @returns The processed URL.
+   */
+  localeRewriteProcessor?: (inputFilePath: string, version: Version, locale: string) => string;
 }
 
 export type VersionedConfig = UserConfig<DefaultTheme.Config> & {
@@ -102,12 +110,13 @@ const defaultVersionedConfig = {
     },
     sidebars: {
       useJson5: false,
-      sidebarPathResolver: (version: Version) => `/versions/${version}/sidebar.json`,
+      sidebarPathResolver: (version: Version) => `.vitepress/sidebars/versioned/${version}.json`,
       sidebarUrlProcessor: (url: string, version: Version) => `/${version}${url}`,
       processSidebarURLs: true,
     },
     rewrites: {
       rewriteProcessor: (inputFilePath: string, version: Version) => inputFilePath.replace(`versions/`, ``),
+      localeRewriteProcessor: (inputFilePath: string, version: Version, locale: string) => `${locale}/` + inputFilePath.replace(`versions/`, ``).replace(`${locale}/`, ``)
     }
   },
 };
@@ -168,6 +177,8 @@ export default function defineVersionedConfig(dirname: string, options: Versione
     ...options.themeConfig.sidebar,
     ...sidebars,
   };
+
+  console.log(sidebars);
 
   return options;
 };

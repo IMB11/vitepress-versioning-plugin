@@ -1,12 +1,12 @@
 import fs from "node:fs"
 import { createLogger } from "vite";
-import { Version } from ".";
+import { Version, VersionedConfig } from ".";
 
 const LOGGER = createLogger();
 
 export const getLogger = () => LOGGER;
 
-export function getFilesRecursively(dir: string): string[] {
+export function getFilesRecursively(dir: string, config: VersionedConfig): string[] {
   const files: string[] = [];
 
   function traverseDirectory(currentDir: string) {
@@ -16,6 +16,12 @@ export function getFilesRecursively(dir: string): string[] {
       const fullPath = `${currentDir}/${entry.name}`;
 
       if (entry.isDirectory()) {
+
+        // Skip the locale folders
+        if (Object.keys(config.locales ?? {}).includes(entry.name)) {
+          continue;
+        }
+
         traverseDirectory(fullPath);
       } else {
         files.push(fullPath);
@@ -27,9 +33,3 @@ export function getFilesRecursively(dir: string): string[] {
 
   return files;
 }
-
-/**
- * The function that resolves the path to the sidebar file for a given version.
- * @param version The version to resolve the sidebar path for.
- */
-export const vitepressSidebarResolver = (version: Version) => `.vitepress/sidebars/versioned/${version}.json`;
