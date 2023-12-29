@@ -1,0 +1,27 @@
+{
+  "name": "vitepress-versioning-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitepress dev test-docs"
+  },
+  "keywords": [],
+  "author": "Calum H. (imb11)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cli-color": "^2.0.6",
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.202",
+    "cli-color": "^2.0.3",
+    "json5": "^2.2.3",
+    "lodash": "^4.17.21",
+    "vite": "^5.0.10",
+    "vitepress": "1.0.0-rc.33"
+  }
+}
