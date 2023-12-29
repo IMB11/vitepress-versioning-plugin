@@ -1,11 +1,17 @@
 {
   "name": "vitepress-versioning-plugin",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "prepublish": "tsup",
+    "build": "tsup",
     "test": "vitepress dev test-docs"
   },
   "repository": {
@@ -24,6 +30,7 @@
   "devDependencies": {
     "@types/cli-color": "^2.0.6",
     "@types/node": "^20.10.5",
+    "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
