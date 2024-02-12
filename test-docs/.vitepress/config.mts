@@ -5,6 +5,13 @@ import defineVersionedConfig from '../../src'
 export default defineVersionedConfig(__dirname, {
   versioning: {
     latestVersion: '1.0.0',
+    rewrites: {
+      localePrefix: "translated",
+    }
+  },
+
+  rewrites: {
+    'translated/:lang/(.*)': ':lang/(.*)'
   },
 
   locales: {

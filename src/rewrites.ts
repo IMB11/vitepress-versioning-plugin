@@ -32,18 +32,21 @@ export function generateVersionRewrites(dirName: string, versions: Version[], co
     const locales = Object.keys(config.locales ?? {});
 
     for (const locale of locales) {
-      const versionLocalePath = path.resolve(versionsDir, version, locale);
+      const localePrefix = (config.versioning.rewrites as VersionRewritesConfig).localePrefix ?? '';
+      const versionLocalePath = path.resolve(versionsDir, version, localePrefix, locale);
 
       if (!fs.existsSync(versionLocalePath)) continue;
 
-      const localeFiles = getFilesRecursively(path.resolve(versionsDir, version, locale), config);
+      const localeFiles = getFilesRecursively(path.resolve(versionsDir, version, localePrefix, locale), config);
 
       const localeRewriteSources = localeFiles.map(filePath => filePath.replace(versionsDir, 'versions'));
 
       for (const rewriteSource of localeRewriteSources) {
         // @ts-ignore
-        rewrites[`${rewriteSource}`] = (config.versioning.rewrites as VersionRewritesConfig).localeRewriteProcessor(rewriteSource, version, locale);
+        rewrites[`${rewriteSource}`] = (config.versioning.rewrites as VersionRewritesConfig).localeRewriteProcessor(rewriteSource, version, locale).replace(`/${localePrefix}`, '');
       }
+
+      console.log(rewrites);
     }
   }
 

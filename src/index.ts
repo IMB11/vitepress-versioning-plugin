@@ -68,6 +68,11 @@ export type VersionRewritesConfig = {
    * @returns The processed URL.
    */
   localeRewriteProcessor?: (inputFilePath: string, version: Version, locale: string) => string;
+
+  /**
+   * The prefix to add to the locale folders.
+   */
+  localePrefix?: string;
 }
 
 export type VersionedConfig = UserConfig<DefaultTheme.Config> & {
@@ -116,7 +121,8 @@ const defaultVersionedConfig = {
     },
     rewrites: {
       rewriteProcessor: (inputFilePath: string, version: Version) => inputFilePath.replace(`versions/`, ``),
-      localeRewriteProcessor: (inputFilePath: string, version: Version, locale: string) => `${locale}/` + inputFilePath.replace(`versions/`, ``).replace(`${locale}/`, ``)
+      localeRewriteProcessor: (inputFilePath: string, version: Version, locale: string) => `${locale}/` + inputFilePath.replace(`versions/`, ``).replace(`${locale}/`, ``),
+      localePrefix: '',
     }
   },
 };
