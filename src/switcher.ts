@@ -9,7 +9,7 @@ export function generateVersionSwitcher(versions: Version[], config: VersionedCo
   if (!config.versioning.switcher) return undefined;
 
   const versionSwitcher: DefaultTheme.NavItem = {
-    text: 'Switch Version',
+    text: config.switcher?.text ?? 'Switch Version',
     items: []
   }
 
