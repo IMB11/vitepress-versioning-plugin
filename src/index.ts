@@ -1,13 +1,13 @@
-import { DefaultTheme, UserConfig } from 'vitepress'
-import _ from 'lodash';
 import clc from "cli-color";
+import _ from 'lodash';
+import fs from "node:fs";
 import path from 'node:path';
-import fs from "node:fs"
+import { DefaultTheme, UserConfig } from 'vitepress';
 
-import { getLogger } from './util';
-import { generateVersionSwitcher } from './switcher';
 import { generateVersionRewrites } from './rewrites';
 import { generateVersionSidebars } from './sidebars';
+import { generateVersionSwitcher } from './switcher';
+import { getLogger } from './util';
 
 export type Version = string;
 
@@ -135,6 +135,7 @@ const defaultVersionedConfig = {
  */
 export default function defineVersionedConfig(dirname: string, options: VersionedConfig): UserConfig<DefaultTheme.Config> {
   const logger = getLogger();
+  const optionsBackup = {...options};
 
   // Replace all undefined values with their default values.
   options = _.defaultsDeep(options, defaultVersionedConfig);
@@ -152,36 +153,41 @@ export default function defineVersionedConfig(dirname: string, options: Versione
 
   versions.push(...versionFolders.map(dirent => dirent.name));
 
-  options.themeConfig = options.themeConfig || {};
+  for (let themeConfig of [
+    options.themeConfig,
+    ...Object.values(options.locales ?? {}).map(locale => locale.themeConfig)
+  ]) {
+    themeConfig ??= {};
 
-  // Generate the version switcher
-  options.themeConfig.nav = options.themeConfig.nav || [];
-  const switcher = generateVersionSwitcher(versions, options);
-  if (switcher) {
-    options.themeConfig.nav.push(switcher);
+    // Generate the version switcher
+    themeConfig.nav ??= [];
+    const switcher = generateVersionSwitcher(versions, options);
+    if (switcher) {
+      themeConfig.nav.push(switcher);
+    }
+
+    // Generate the sidebar
+    if (themeConfig.sidebar === undefined) {
+      themeConfig.sidebar = {};
+    } else if (Array.isArray(themeConfig.sidebar)) {
+      logger.error(clc.red(`[vitepress-plugin-versioning]`) + " The sidebar cannot be an array. Please use a DefaultTheme.MultiSidebar object where the root ('/') is your array.");
+      logger.info(clc.yellow(`[vitepress-plugin-versioning]`) + " Versioned sidebar preperation failed, disabling sidebar versioning.");
+      return optionsBackup;
+    };
+
+    const sidebars = generateVersionSidebars(dirname, versions, options);
+    themeConfig.sidebar = {
+      ...themeConfig.sidebar,
+      ...sidebars,
+    };
   }
 
   // Generate the rewrites
-  options.rewrites = options.rewrites || {};
+  options.rewrites ??= options.rewrites;
   const rewrites = generateVersionRewrites(dirname, versions, options);
   options.rewrites = {
     ...options.rewrites,
     ...rewrites,
-  };
-
-  // Generate the sidebar
-  if (options.themeConfig.sidebar === undefined) {
-    options.themeConfig.sidebar = {};
-  } else if (Array.isArray(options.themeConfig.sidebar)) {
-    logger.error(clc.red(`[vitepress-plugin-versioning]`) + " The sidebar cannot be an array. Please use a DefaultTheme.MultiSidebar object where the root ('/') is your array.");
-    logger.info(clc.yellow(`[vitepress-plugin-versioning]`) + " Versioned sidebar preperation failed, disabling sidebar versioning.");
-    return options;
-  };
-
-  const sidebars = generateVersionSidebars(dirname, versions, options);
-  options.themeConfig.sidebar = {
-    ...options.themeConfig.sidebar,
-    ...sidebars,
   };
 
   return options;
