@@ -29,16 +29,16 @@
   "license": "MIT",
   "devDependencies": {
     "@types/cli-color": "^2.0.6",
-    "@types/node": "^20.10.5",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.14.2",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.202",
-    "cli-color": "^2.0.3",
+    "@types/lodash": "^4.17.5",
+    "cli-color": "^2.0.4",
     "json5": "^2.2.3",
     "lodash": "^4.17.21",
-    "vite": "^5.0.10",
+    "vite": "^5.2.13",
     "vitepress": "1.0.0-rc.33"
   }
 }
