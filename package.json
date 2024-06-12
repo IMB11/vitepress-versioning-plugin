@@ -1,6 +1,6 @@
 {
   "name": "vitepress-versioning-plugin",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "This plugin adds versioning support to VitePress.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
