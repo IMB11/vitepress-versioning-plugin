@@ -45,8 +45,6 @@ export function generateVersionRewrites(dirName: string, versions: Version[], co
         // @ts-ignore
         rewrites[`${rewriteSource}`] = (config.versioning.rewrites as VersionRewritesConfig).localeRewriteProcessor(rewriteSource, version, locale).replace(`/${localePrefix}`, '');
       }
-
-      console.log(rewrites);
     }
   }
 
