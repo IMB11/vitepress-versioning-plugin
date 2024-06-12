@@ -159,9 +159,17 @@ export default function defineVersionedConfig(dirname: string, options: Versione
   ]) {
     themeConfig ??= {};
 
+    // If themeConfig has a versioning.switcher.text, respect it.
+    let switcherText = null;
+  
+    try {
+      //@ts-ignore
+      switcherText = themeConfig.versioning.switcher.text;
+    } catch {}
+
     // Generate the version switcher
     themeConfig.nav ??= [];
-    const switcher = generateVersionSwitcher(versions, options);
+    const switcher = generateVersionSwitcher(versions, options, switcherText);
     if (switcher) {
       themeConfig.nav.push(switcher);
     }

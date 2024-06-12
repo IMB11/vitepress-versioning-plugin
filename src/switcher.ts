@@ -5,11 +5,11 @@ import { Version, VersionedConfig } from ".";
  * Generates a nav item for the version switcher, which contains all versions in the "versions" folder and the latest version.
  * @returns {DefaultTheme.NavItem} A nav item that contains all versions in the "versions" folder.
  */
-export function generateVersionSwitcher(versions: Version[], config: VersionedConfig): DefaultTheme.NavItem | undefined {
+export function generateVersionSwitcher(versions: Version[], config: VersionedConfig, switcherText: string | null = null): DefaultTheme.NavItem | undefined {
   if (!config.versioning.switcher) return undefined;
 
   const versionSwitcher: DefaultTheme.NavItem = {
-    text: (typeof config.versioning.switcher !== "boolean" ? config.versioning.switcher?.text : null) ?? "Switch Version",
+    text: (typeof config.versioning.switcher !== "boolean" ? config.versioning.switcher?.text : null) ?? switcherText ?? "Switch Version",
     items: []
   }
 
