@@ -12,7 +12,7 @@
   "scripts": {
     "prepublish": "tsup",
     "build": "tsup",
-    "test": "vitepress dev test-docs"
+    "docs": "vitepress dev docs"
   },
   "repository": {
     "type": "git",
