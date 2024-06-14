@@ -1,8 +1,8 @@
-import { DefaultTheme } from "vitepress";
-import { Version, VersionedConfig, VersionedSidebarConfig } from ".";
-import path from "node:path";
-import fs from "node:fs";
 import JSON5 from "json5";
+import fs from "node:fs";
+import path from "node:path";
+import { DefaultTheme } from "vitepress";
+import { Version, VersionedSidebarConfig, VersionedSidebarItem } from "./types";
 
 /**
  * Replaces all links in the sidebar with their versioned equivalents.
@@ -11,84 +11,74 @@ import JSON5 from "json5";
  * @param version The version to prepend to all links.
  * @returns {DefaultTheme.SidebarItem[]} The sidebar with all links prepended with the version.
  */
-function replaceLinksRecursive(sidebar: DefaultTheme.SidebarItem[], version: Version, config: VersionedConfig): DefaultTheme.SidebarItem[] {
+function replaceLinksRecursive(
+  sidebar: VersionedSidebarItem[],
+  config: VersionedSidebarConfig,
+  version: Version
+): DefaultTheme.SidebarItem[] {
   // Prepend the version to all links. `{VERSION}/$link`
-  const versionedSidebar = sidebar.map(item => {
-    // @ts-ignore
-    if (item.process === false) return item;
+  return sidebar.map((item) => {
+    if (item.process === false) {
+      return item;
+    }
 
     if (item.link) {
-      // @ts-ignore
-      item.link = (config.versioning.sidebars as VersionedSidebarConfig).sidebarUrlProcessor(item.link, version)
+      item.link = config.sidebarUrlProcessor!(item.link, version);
     }
 
     if (item.items) {
-      item.items = replaceLinksRecursive(item.items, version, config)
+      item.items = replaceLinksRecursive(item.items, config, version);
     }
 
-    return item
-  })
-
-  return versionedSidebar
+    return item;
+  });
 }
 
 /**
  * Gets the sidebar for a specific version.
- * This function will look for a sidebar.json5 file in the specified version's folder, or else return an empty sidebar.
+ * This function will look for a sidebar.json file in the specified version's folder, or else return an empty sidebar.
  * @param version Get the sidebar for a specific version.
  * @returns {DefaultTheme.SidebarItem[]} The sidebar for the specified version.
  */
-export function getSidebar(dirname: string, version: Version, config: VersionedConfig): DefaultTheme.Sidebar {
-  // @ts-ignore
-  const sidebarRootPath = (config.versioning.sidebars as VersionedSidebarConfig).sidebarPathResolver(version);
-  const sidebarPath = path.resolve(dirname, "..", sidebarRootPath);
-  if (fs.existsSync(sidebarPath)) {
-    // JSON5 can easily parse both JSON and JSON5 files, so might as well just keep it.
-    const sidebar = JSON5.parse(fs.readFileSync(sidebarPath, 'utf-8'))
+function getSidebar(
+  config: VersionedSidebarConfig,
+  dirname: string,
+  version: Version,
+  locale: string
+): DefaultTheme.Sidebar {
+  const sidebarPath = path.resolve(
+    dirname,
+    "..",
+    config.sidebarPathResolver!(
+      version + (locale === "root" ? "" : `-${locale}`)
+    )
+  );
 
-    if (!Array.isArray(sidebar)) {
+  if (fs.existsSync(sidebarPath)) {
+    const sidebar = JSON5.parse(fs.readFileSync(sidebarPath, "utf-8"));
+
+    if (Array.isArray(sidebar)) {
+      // Replace all links in the sidebar with their versioned equivalents.
+      return replaceLinksRecursive(
+        sidebar as VersionedSidebarItem[],
+        config,
+        (locale === "root" ? "" : `${locale}/`) + version
+      );
+    } else {
       // Must be a multisidebar instance.
-      const multisidebar = sidebar as DefaultTheme.SidebarMulti;
+      const multiSidebar = sidebar as DefaultTheme.SidebarMulti;
 
       // Replace all links in the sidebar with their versioned equivalents.
-      Object.keys(multisidebar).forEach(key => {
-        multisidebar[key] = replaceLinksRecursive(multisidebar[key] as DefaultTheme.SidebarItem[], version, config)
+      Object.keys(multiSidebar).forEach((key) => {
+        multiSidebar[key] = replaceLinksRecursive(
+          multiSidebar[key] as VersionedSidebarItem[],
+          config,
+          (locale === "root" ? "" : `${locale}/`) + version
+        );
       });
 
-      return multisidebar;
+      return multiSidebar;
     }
-
-    // Replace all links in the sidebar with their versioned equivalents.
-    return replaceLinksRecursive(sidebar, version, config)
-  }
-
-  return [];
-}
-
-export function getLocaleSidebar(dirname: string, version: Version, locale: string, config: VersionedConfig): DefaultTheme.Sidebar {
-  // Same thing as above, but sidebar file is `version-locale.json` and URLs must also be prefixed with the locale.
-
-  // @ts-ignore
-  const sidebarRootPath = (config.versioning.sidebars as VersionedSidebarConfig).sidebarPathResolver(version + `-${locale}`);
-  const sidebarPath = path.resolve(dirname, "..", sidebarRootPath);
-  if (fs.existsSync(sidebarPath)) {
-    // JSON5 can easily parse both JSON and JSON5 files, so might as well just keep it.
-    const sidebar = JSON5.parse(fs.readFileSync(sidebarPath, 'utf-8'))
-
-    if (!Array.isArray(sidebar)) {
-      // Must be a multisidebar instance.
-      const multisidebar = sidebar as DefaultTheme.SidebarMulti;
-
-      // Replace all links in the sidebar with their versioned equivalents.
-      Object.keys(multisidebar).forEach(key => {
-        multisidebar[key] = replaceLinksRecursive(multisidebar[key] as DefaultTheme.SidebarItem[], `${locale}/` + version, config)
-      });
-
-      return multisidebar;
-    }
-
-    // Replace all links in the sidebar with their versioned equivalents.
-    return replaceLinksRecursive(sidebar, `/${locale}` + version, config)
   }
 
   return [];
@@ -98,39 +88,32 @@ export function getLocaleSidebar(dirname: string, version: Version, locale: stri
  * Generates a sidebar for each version in the "versions" folder.
  * @returns {DefaultTheme.SidebarMulti} A map of versions to their sidebars.
  */
-export function generateVersionSidebars(dirname: string, versions: Version[], config: VersionedConfig): DefaultTheme.SidebarMulti {
+export function generateVersionSidebars(
+  config: VersionedSidebarConfig | false,
+  dirname: string,
+  versions: Version[],
+  locales: string[]
+): DefaultTheme.SidebarMulti {
   const versionSidebars: DefaultTheme.SidebarMulti = {};
-
-  if (config.versioning.sidebars === false) return versionSidebars;
+  if (config === false) return versionSidebars;
 
   for (const version of versions) {
-    const versionSidebar = getSidebar(dirname, version, config);
-
-    if (Array.isArray(versionSidebar)) {
-      versionSidebars[`/${version}/`] = versionSidebar as DefaultTheme.SidebarItem[]
-    } else {
-      Object.keys(versionSidebar).forEach(key => {
-        versionSidebars[`/${version}${key}`] = versionSidebar[key] as DefaultTheme.SidebarItem[]
-      });
-    }
-
-    // Repeat for locales (version-locale.json)
-    const locales = Object.keys(config.locales ?? {});
-
     for (const locale of locales) {
-      if (locale === 'root') continue;
+      const sidebar = getSidebar(config, dirname, version, locale);
 
-      const versionLocaleSidebar = getLocaleSidebar(dirname, version, locale, config);
-
-      if (Array.isArray(versionLocaleSidebar)) {
-        versionSidebars[`/${locale}/${version}/`] = versionLocaleSidebar as DefaultTheme.SidebarItem[]
+      if (Array.isArray(sidebar)) {
+        versionSidebars[
+          (locale === "root" ? "" : `/${locale}`) + `/${version}`
+        ] = sidebar;
       } else {
-        Object.keys(versionLocaleSidebar).forEach(key => {
-          versionSidebars[`/${locale}/${version}${key}`] = versionLocaleSidebar[key] as DefaultTheme.SidebarItem[]
+        Object.keys(sidebar).forEach((key) => {
+          versionSidebars[
+            (locale === "root" ? "" : `/${locale}`) + `/${version}${key}`
+          ] = (sidebar as DefaultTheme.SidebarMulti)[key];
         });
       }
     }
   }
 
-  return versionSidebars
+  return versionSidebars;
 }
