@@ -10,7 +10,7 @@ hero:
     - text: Get Started
       link: /guide/
     - text: Configuration Reference
-      link: /configuration/
+      link: /config/
 
 features:
   - title: Versioning

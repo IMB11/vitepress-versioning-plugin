@@ -9,10 +9,11 @@ import { generateVersionSidebars } from "./sidebars";
 import { generateVersionSwitcher } from "./switcher";
 import { Version, VersionedConfig, VersionedThemeConfig } from "./types";
 import { defaultConfig, defaultThemeConfig } from "./defaults";
+// import { generateVersionedNavbars } from "./navbars";
 
 export { VersionedConfig, VersionedThemeConfig, Version };
 
-// TODO: Fix nav bar elements (not versioned)
+// TODO: Fix nav bar elements (not versioned) - Seems not to be possible due to VitePress limitation...
 // TODO: Changing version does not preserve language
 // TODO: Change URL format to `/version/lang/file`
 
@@ -58,6 +59,19 @@ export default function defineVersionedConfig(
       defaultThemeConfig
     ) as VersionedThemeConfig;
 
+    // // Generate navbars
+    // themeConfig.nav = [
+    //   ...themeConfig.nav ?? [],
+    //   ...generateVersionedNavbars(
+    //     config.versioning.navbars!,
+    //     dirname,
+    //     versions,
+    //     Object.keys(config.locales ?? {})
+    //   ).flat(),
+    // ]
+
+    // console.log(themeConfig.nav)
+
     // Generate the version switcher
     const versionSwitcher = generateVersionSwitcher(
       themeConfig.versionSwitcher!,
@@ -73,11 +87,11 @@ export default function defineVersionedConfig(
     if (Array.isArray(themeConfig.sidebar)) {
       logger.error(
         clc.red(`[vitepress-plugin-versioning]`) +
-          " The sidebar cannot be an array. Please use a DefaultTheme.MultiSidebar object where the root ('/') is your array."
+        " The sidebar cannot be an array. Please use a DefaultTheme.MultiSidebar object where the root ('/') is your array."
       );
       logger.info(
         clc.yellow(`[vitepress-plugin-versioning]`) +
-          " Versioned sidebar preperation failed, disabling versioning."
+        " Versioned sidebar preperation failed, disabling versioning."
       );
       return configBackup; // TODO: This entirely disables versioning, is this intentional?
     } else {

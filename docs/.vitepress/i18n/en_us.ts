@@ -5,6 +5,5 @@ export default {
   "installation": "Installation",
   "basicSetup": "Basic Setup",
   "addingVersion": "Adding a Version",
-  "addingTranslations": "Adding Translations",
-  
+  "troubleshooting": "Troubleshooting",
 }

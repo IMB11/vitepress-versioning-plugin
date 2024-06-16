@@ -70,6 +70,31 @@ export type VersionedSidebarConfig = {
   sidebarUrlProcessor?: (url: string, version: Version) => string;
 };
 
+export type VersionedNavbarConfig = {
+  /**
+   * Whether or not to process navbar URLs. Uses the `navbarUrlProcessor` function.
+   * @default true
+   */
+  processNavbarURLs?: boolean;
+
+  /**
+   * The function that processes navbar URLs.
+   * @param url The URL to process.
+   * @param version The version to process the URL for.
+   * @returns The processed URL.
+   * @default (url: string, version: Version) => `/${version}${url}`
+   */
+  navbarUrlProcessor?: (url: string, version: Version) => string;
+
+  /**
+   * The function that resolves the path to the navbar file for a given version.
+   * @param version The version to resolve the navbar path for.
+   * @returns The path to the navbar file for the given version.
+   * @default (version: Version) => `.vitepress/navbars/versioned/${version}.json`
+   */
+  navbarPathResolver?: (version: Version) => string;
+}
+
 export type VersionedSidebarItem = DefaultTheme.SidebarItem & {
   /**
    * Set to `false` to disable versioning of this URL.
@@ -77,11 +102,22 @@ export type VersionedSidebarItem = DefaultTheme.SidebarItem & {
   process?: boolean;
 };
 
+// export type VersionedNavbarItem = DefaultTheme.NavItem & {
+//   /**
+//    * Set to `false` to disable versioning of this URL.
+//    */
+//   process?: boolean;
+  
+//   link?: string;
+// };
+
 export type VersionedSidebar = {
   [path: string]:
     | VersionedSidebarItem[]
     | { items: VersionedSidebarItem[]; base: string };
 };
+
+// export type VersionedNavbar = VersionedNavbarItem[];
 
 export interface VersionedThemeConfig extends DefaultTheme.Config {
   /**
@@ -91,6 +127,7 @@ export interface VersionedThemeConfig extends DefaultTheme.Config {
   versionSwitcher?: VersionSwitcherConfig | false;
 
   sidebar?: VersionedSidebar;
+  // nav?: VersionedNavbar;
 }
 
 export interface VersionedConfig extends UserConfig<VersionedThemeConfig> {
@@ -109,6 +146,13 @@ export interface VersionedConfig extends UserConfig<VersionedThemeConfig> {
      * Set this to false to disable all sidebar versioning functionality.
      */
     sidebars?: VersionedSidebarConfig | false;
+
+    /**
+     * Configuration relating to versioned navbar files.
+     *
+     * Set this to false to disable all navbar versioning functionality.
+     */
+    // navbars?: VersionedNavbarConfig | false;
 
     /**
      * Configuration relating to versioned rewrites.

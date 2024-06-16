@@ -2,13 +2,14 @@ import { LocaleConfig } from "vitepress";
 import { VersionedSidebar, VersionedThemeConfig } from "../../src/types";
 
 import English from "./i18n/en_us";
-import French from "./i18n/fr_fr";
+// TODO: French translations
+// import French from "./i18n/fr_fr";
 
 export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
   // Load localisation from ./i18n, load en_us.json into localisation["root"] whilst everything else is loaded into localisation[locale]
   const localisations = {
     root: English,
-    fr: French
+    // fr: French
   }
 
   const sidebarConfig: VersionedSidebar = {};

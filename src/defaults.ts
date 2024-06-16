@@ -17,6 +17,13 @@ const defaultConfig: VersionedConfig = {
       sidebarUrlProcessor: (url: string, version: Version) =>
         `/${version}${url}`,
     },
+    // navbars: {
+    //   processNavbarURLs: true,
+    //   navbarUrlProcessor: (url: string, version: Version) =>
+    //     `/${version}${url}`,
+    //   navbarPathResolver: (version: Version) =>
+    //     `.vitepress/navbars/versioned/${version}.json`,
+    // },
     rewrites: {
       localePrefix: "",
       localeRewriteProcessor: (
