@@ -1,0 +1,25 @@
+import defineVersionedConfig from "../../src";
+import { generateLocales } from "./generateLocales.mts";
+
+// https://vitepress.dev/reference/site-config
+export default defineVersionedConfig(
+  {
+    title: "Vitepress Versioning Plugin",
+    description: "A Vitepress plugin for versioning documentation.",
+    cleanUrls: true,
+
+    versioning: {
+      latestVersion: "1.0.0",
+      rewrites: {
+        localePrefix: "translated",
+      },
+    },
+
+    rewrites: {
+      "translated/:lang/(.*)": ":lang/(.*)",
+    },
+
+    locales: generateLocales(),
+  },
+  __dirname
+);

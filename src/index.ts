@@ -1,202 +1,122 @@
 import clc from "cli-color";
-import _ from 'lodash';
+import _ from "lodash";
 import fs from "node:fs";
-import path from 'node:path';
-import { DefaultTheme, UserConfig } from 'vitepress';
+import path from "node:path";
+import { createLogger } from "vite";
+import { DefaultTheme, UserConfig } from "vitepress";
+import { generateVersionRewrites } from "./rewrites";
+import { generateVersionSidebars } from "./sidebars";
+import { generateVersionSwitcher } from "./switcher";
+import { Version, VersionedConfig, VersionedThemeConfig } from "./types";
+import { defaultConfig, defaultThemeConfig } from "./defaults";
+// import { generateVersionedNavbars } from "./navbars";
 
-import { generateVersionRewrites } from './rewrites';
-import { generateVersionSidebars } from './sidebars';
-import { generateVersionSwitcher } from './switcher';
-import { getLogger } from './util';
+export { VersionedConfig, VersionedThemeConfig, Version };
 
-export type Version = string;
-
-export type VersionSwitcherConfig = {
-  /**
-   * The text to display on the version switcher button.
-   */
-  text?: string,
-
-  /**
-   * Should the latest (root) version be included in the version switcher?
-   */
-  includeLatestVersion?: boolean,
-};
-
-export type VersionedSidebarConfig = {
-  /**
-   * Whether or not to process sidebar URLs. Uses the `sidebarUrlProcessor` function.
-   * @default true
-   */
-  processSidebarURLs?: boolean;
-
-  /**
-   * The function that resolves the path to the sidebar file for a given version.
-   * @param version The version to resolve the sidebar path for.
-   * @returns The path to the sidebar file for the given version.
-   * @default (version) => `.vitepress/sidebars/versioned/${version}.json`
-   */
-  sidebarPathResolver?: (version: Version) => string;
-
-  /**
-   * The function that processes sidebar URLs.
-   * @param url The URL to process.
-   * @param version The version to process the URL for.
-   * @returns The processed URL.
-   * @default (url, version) => `/${version}${url}`
-   */
-  sidebarUrlProcessor?: (url: string, version: Version) => string;
-}
-
-export type VersionRewritesConfig = {
-  /**
-   * The function that processes rewrite URLs.
-   * @param inputFilePath The input file path to process.
-   * @param version The version to process the URL for.
-   * @returns The processed URL.
-   * @default (inputFilePath, version) => inputFilePath.replace(`versions/`, ``);
-   * @example // Turns `/versions/1.0.0/index.md` into `/1.0.0/index.md`
-   */
-  rewriteProcessor?: (inputFilePath: string, version: Version) => string;
-
-  /**
-   * The function that processes rewrite URLs for locale folders.
-   * @param inputFilePath The input file path to process.
-   * @param version The version to process the URL for.
-   * @param locale The locale to process the URL for.
-   * @default (inputFilePath, version, locale) => `${locale}/` + inputFilePath.replace(`versions/`, ``).replace(`${locale}/`, ``)
-   * @returns The processed URL.
-   */
-  localeRewriteProcessor?: (inputFilePath: string, version: Version, locale: string) => string;
-
-  /**
-   * The prefix to add to the locale folders.
-   */
-  localePrefix?: string;
-}
-
-export type VersionedConfig = UserConfig<DefaultTheme.Config> & {
-  /**
-   * Configuration options relating to versioning.
-   */
-  versioning: {
-    /**
-     * The latest (current/root) version of the project.
-     */
-    latestVersion: string,
-
-    /**
-     * Configuration options relating to the version switcher.
-     * Set to false to disable the version switcher.
-     */
-    switcher?: VersionSwitcherConfig | boolean;
-
-    /**
-     * Configuration options relating to versioned sidebar files.
-     * 
-     * Set this to false to disable all sidebar versioning functionality.
-     */
-    sidebars?: VersionedSidebarConfig | boolean;
-    /**
-     * Configuration options relating to versioned rewrites.
-     * 
-     * Set this to false to disable all rewrite versioning functionality.
-     */
-    rewrites?: VersionRewritesConfig | boolean;
-  };
-};
-
-// Initialize the default values
-const defaultVersionedConfig = {
-  versioning: {
-    switcher: {
-      text: 'Switch Version',
-      includeLatestVersion: true,
-    },
-    sidebars: {
-      useJson5: false,
-      sidebarPathResolver: (version: Version) => `.vitepress/sidebars/versioned/${version}.json`,
-      sidebarUrlProcessor: (url: string, version: Version) => `/${version}${url}`,
-      processSidebarURLs: true,
-    },
-    rewrites: {
-      rewriteProcessor: (inputFilePath: string, version: Version) => inputFilePath.replace(`versions/`, ``),
-      localeRewriteProcessor: (inputFilePath: string, version: Version, locale: string) => `${locale}/` + inputFilePath.replace(`versions/`, ``).replace(`${locale}/`, ``),
-      localePrefix: '',
-    }
-  },
-};
+// TODO: Fix nav bar elements (not versioned) - Seems not to be possible due to VitePress limitation...
+// TODO: Changing version does not preserve language
+// TODO: Change URL format to `/version/lang/file`
 
 /**
- * Processes the default theme config with versioned config options.
+ * Processes the default theme config with versioning config.
+ * @param config The default theme config with versioning config.
  * @param dirname The value of __dirname when used from any typescript file in the `.vitepress` folder and ONLY the `.vitepress` folder.
- * @param options The default theme config with versioned config options.
- * @returns The default theme config with versioned config options.
+ * @returns The default theme config with versioning config.
  */
-export default function defineVersionedConfig(dirname: string, options: VersionedConfig): UserConfig<DefaultTheme.Config> {
-  const logger = getLogger();
-  const optionsBackup = {...options};
+export default function defineVersionedConfig(
+  config: VersionedConfig,
+  dirname: string
+): UserConfig<DefaultTheme.Config> {
+  const logger = createLogger();
 
-  // Replace all undefined values with their default values.
-  options = _.defaultsDeep(options, defaultVersionedConfig);
+  // TODO: Does this convert to UserConfig correctly?
+  const configBackup = { ...config };
+  config = _.defaultsDeep(config, defaultConfig);
 
   // Load all the versions from the "versions" folder.
   const versions: Version[] = [];
-  const versionsFolder = path.resolve(dirname, '..', 'versions');
+  const versionsFolder = path.resolve(dirname, "..", "versions");
 
   if (!fs.existsSync(versionsFolder)) {
     fs.mkdirSync(versionsFolder);
-    fs.writeFileSync(path.resolve(versionsFolder, '.gitkeep'), '');
+    fs.writeFileSync(path.resolve(versionsFolder, ".gitkeep"), "");
   }
 
-  const versionFolders = fs.readdirSync(versionsFolder, { withFileTypes: true }).filter(dirent => dirent.isDirectory());
+  const versionFolders = fs
+    .readdirSync(versionsFolder, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory());
+  versions.push(...versionFolders.map((dirent) => dirent.name));
 
-  versions.push(...versionFolders.map(dirent => dirent.name));
-
+  // Convert all `VersionedThemeConfig`s to `DefaultTheme.Config`s
   for (let themeConfig of [
-    options.themeConfig,
-    ...Object.values(options.locales ?? {}).map(locale => locale.themeConfig)
+    config.themeConfig,
+    ...Object.values(config.locales ?? {}).map((locale) => locale.themeConfig),
   ]) {
-    themeConfig ??= {};
+    if (!themeConfig) continue;
 
-    // If themeConfig has a versioning.switcher.text, respect it.
-    let switcherText = null;
-  
-    try {
-      //@ts-ignore
-      switcherText = themeConfig.versioning.switcher.text;
-    } catch {}
+    themeConfig = _.defaultsDeep(
+      themeConfig,
+      defaultThemeConfig
+    ) as VersionedThemeConfig;
+
+    // // Generate navbars
+    // themeConfig.nav = [
+    //   ...themeConfig.nav ?? [],
+    //   ...generateVersionedNavbars(
+    //     config.versioning.navbars!,
+    //     dirname,
+    //     versions,
+    //     Object.keys(config.locales ?? {})
+    //   ).flat(),
+    // ]
+
+    // console.log(themeConfig.nav)
 
     // Generate the version switcher
-    themeConfig.nav ??= [];
-    const switcher = generateVersionSwitcher(versions, options, switcherText);
-    if (switcher) {
-      themeConfig.nav.push(switcher);
+    const versionSwitcher = generateVersionSwitcher(
+      themeConfig.versionSwitcher!,
+      versions,
+      config.versioning.latestVersion!
+    );
+    if (versionSwitcher) {
+      themeConfig.nav ??= [];
+      themeConfig.nav.push(versionSwitcher);
     }
 
-    // Generate the sidebar
-    if (themeConfig.sidebar === undefined) {
-      themeConfig.sidebar = {};
-    } else if (Array.isArray(themeConfig.sidebar)) {
-      logger.error(clc.red(`[vitepress-plugin-versioning]`) + " The sidebar cannot be an array. Please use a DefaultTheme.MultiSidebar object where the root ('/') is your array.");
-      logger.info(clc.yellow(`[vitepress-plugin-versioning]`) + " Versioned sidebar preperation failed, disabling sidebar versioning.");
-      return optionsBackup;
-    };
-
-    const sidebars = generateVersionSidebars(dirname, versions, options);
-    themeConfig.sidebar = {
-      ...themeConfig.sidebar,
-      ...sidebars,
-    };
+    // Generate the sidebars
+    if (Array.isArray(themeConfig.sidebar)) {
+      logger.error(
+        clc.red(`[vitepress-plugin-versioning]`) +
+        " The sidebar cannot be an array. Please use a DefaultTheme.MultiSidebar object where the root ('/') is your array."
+      );
+      logger.info(
+        clc.yellow(`[vitepress-plugin-versioning]`) +
+        " Versioned sidebar preperation failed, disabling versioning."
+      );
+      return configBackup; // TODO: This entirely disables versioning, is this intentional?
+    } else {
+      themeConfig.sidebar = {
+        ...themeConfig.sidebar,
+        ...generateVersionSidebars(
+          config.versioning.sidebars!,
+          dirname,
+          versions,
+          Object.keys(config.locales ?? {})
+        ),
+      };
+    }
   }
 
   // Generate the rewrites
-  options.rewrites ??= options.rewrites;
-  const rewrites = generateVersionRewrites(dirname, versions, options);
-  options.rewrites = {
-    ...options.rewrites,
-    ...rewrites,
+  config.rewrites = {
+    ...config.rewrites,
+    ...generateVersionRewrites(
+      config.versioning.rewrites!,
+      dirname,
+      versions,
+      Object.keys(config.locales ?? {})
+    ),
   };
 
-  return options;
-};
+  return config;
+}
