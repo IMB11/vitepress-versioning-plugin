@@ -34,6 +34,10 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
         text: translations["addingTranslations"],
         link: linkPrefix + "/guide/adding-translations",
       },
+      {
+        text: translations["troubleshooting"],
+        link: linkPrefix + "/guide/troubleshooting",
+      }
     ];
   }
 
