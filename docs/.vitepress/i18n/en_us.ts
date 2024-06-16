@@ -6,4 +6,6 @@ export default {
   "basicSetup": "Basic Setup",
   "addingVersion": "Adding a Version",
   "troubleshooting": "Troubleshooting",
+  "root": "English (US)",
+  "test": "Test Language"
 }
