@@ -87,7 +87,7 @@ export function generateVersionRewrites(
     }
   }
 
-  console.log(versionRewrites)
+  // console.log(versionRewrites)
 
   return versionRewrites;
 }
