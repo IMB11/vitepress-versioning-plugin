@@ -1,0 +1,70 @@
+:root {
+  --vp-c-blue-1: #0f9e63;
+  --vp-c-blue-2: #18b875;
+  --vp-c-blue-3: #3ad79d;
+  --vp-c-blue-soft: rgba(52, 130, 219, 0.14);
+
+  --vp-c-brand-1: var(--vp-c-blue-3);
+  --vp-c-brand-2: var(--vp-c-blue-2);
+  --vp-c-brand-3: var(--vp-c-blue-1);
+  --vp-c-brand-soft: var(--vp-c-blue-soft);
+}
+
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    var(--vp-c-blue-1) 30%,
+    var(--vp-c-blue-2)
+  );
+}
+
+.homepage-container {
+  margin: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 24px;
+}
+
+.VPHome {
+  padding-bottom: 0px !important;
+}
+
+@media (min-width: 640px) {
+  .homepage-container {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .homepage-container {
+    width: 100%;
+    padding: 0 64px;
+  }
+}
+
+.VPLocalSearchBox > .backdrop {
+  opacity: 0;
+  animation: show 200ms 100ms cubic-bezier(0.38, 0.97, 0.56, 0.76) forwards;
+}
+
+.VPLocalSearchBox > .shell {
+  animation: show 400ms 100ms cubic-bezier(0.38, 0.97, 0.56, 0.76) forwards;
+  opacity: 0;
+  transform: rotateX(-90deg);
+  transform-origin: top center;
+}
+
+@keyframes show {
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Center any images in markdown. */
+.vp-doc > p > img,
+.vp-doc > div > p > img {
+  margin-left: auto;
+  margin-right: auto;
+}

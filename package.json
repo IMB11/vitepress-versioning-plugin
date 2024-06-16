@@ -31,7 +31,8 @@
     "@types/cli-color": "^2.0.6",
     "@types/node": "^20.14.2",
     "tsup": "^8.1.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vue": "^3.4.29"
   },
   "dependencies": {
     "@types/lodash": "^4.17.5",

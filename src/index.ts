@@ -8,43 +8,13 @@ import { generateVersionRewrites } from "./rewrites";
 import { generateVersionSidebars } from "./sidebars";
 import { generateVersionSwitcher } from "./switcher";
 import { Version, VersionedConfig, VersionedThemeConfig } from "./types";
+import { defaultConfig, defaultThemeConfig } from "./defaults";
+
+export { VersionedConfig, VersionedThemeConfig, Version };
 
 // TODO: Fix nav bar elements (not versioned)
 // TODO: Changing version does not preserve language
 // TODO: Change URL format to `/version/lang/file`
-
-// Default values
-const defaultThemeConfig: VersionedThemeConfig = {
-  versionSwitcher: {
-    text: "Switch Version",
-    includeLatestVersion: true,
-  },
-};
-
-const defaultConfig: VersionedConfig = {
-  versioning: {
-    latestVersion: null,
-    sidebars: {
-      processSidebarURLs: true,
-      sidebarPathResolver: (version: Version) =>
-        `.vitepress/sidebars/versioned/${version}.json`,
-      sidebarUrlProcessor: (url: string, version: Version) =>
-        `/${version}${url}`,
-    },
-    rewrites: {
-      localePrefix: "",
-      localeRewriteProcessor: (
-        inputFilePath: string,
-        _version: Version,
-        locale: string
-      ) =>
-        `${locale}/` +
-        inputFilePath.replace("versions/", "").replace(`${locale}/`, ""),
-      rewriteProcessor: (inputFilePath: string, _version: Version) =>
-        inputFilePath.replace("versions/", ""),
-    },
-  },
-};
 
 /**
  * Processes the default theme config with versioning config.

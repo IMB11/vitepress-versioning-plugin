@@ -1,34 +1,37 @@
 import { LocaleConfig } from "vitepress";
 import { VersionedSidebar, VersionedThemeConfig } from "../../src/types";
 
+import English from "./i18n/en_us";
+import French from "./i18n/fr_fr";
+
 export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
+  // Load localisation from ./i18n, load en_us.json into localisation["root"] whilst everything else is loaded into localisation[locale]
   const localisations = {
-    root: [
-      "English",
-      "Index",
-      "Example",
-      "https://github.com/IMB11/vitepress-versioning-plugin/",
-      "Switch Version",
-      "Version 1.0.0 - English",
-    ],
-    fr: [
-      "Français",
-      "Accueil",
-      "Exemple",
-      "https://github.com/IMB11/vitepress-versioning-plugin/",
-      "Changer de Version",
-      "Version 1.0.0 - Français",
-    ],
-  };
+    root: English,
+    fr: French
+  }
 
   const sidebarConfig: VersionedSidebar = {};
   for (const locale of Object.keys(localisations)) {
     const translations = localisations[locale];
 
-    sidebarConfig[(locale === "root" ? "" : `/${locale}`) + "/"] = [
+    const linkPrefix = locale === "root" ? "" : `/${locale}`;
+    sidebarConfig[linkPrefix + "/guide/"] = [
       {
-        text: translations[5],
-        link: "/",
+        text: translations["installation"],
+        link: linkPrefix + "/guide/",
+      },
+      {
+        text: translations["basicSetup"],
+        link: linkPrefix + "/guide/basic-setup",
+      },
+      {
+        text: translations["addingVersion"],
+        link: linkPrefix + "/guide/adding-version",
+      },
+      {
+        text: translations["addingTranslations"],
+        link: linkPrefix + "/guide/adding-translations",
       },
     ];
   }
@@ -44,16 +47,22 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
       themeConfig: {
         nav: [
           {
-            text: translations[1],
+            text: translations["home"],
             link: (locale === "root" ? "" : `/${locale}`) + "/",
           },
           {
-            text: translations[2],
+            text: translations["gettingStarted"],
             link:
-              (locale === "root" ? "" : `/${locale}`) + "/example",
+              (locale === "root" ? "" : `/${locale}`) + "/guide/",
           },
+          {
+            text: translations["configReference"],
+            link:
+              (locale === "root" ? "" : `/${locale}`) + "/config/",
+          }
         ],
         sidebar: sidebarConfig,
+        outline: "deep",
         socialLinks: [
           {
             icon: "github",

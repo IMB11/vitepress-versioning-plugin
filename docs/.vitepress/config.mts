@@ -4,8 +4,8 @@ import { generateLocales } from "./generateLocales.mts";
 // https://vitepress.dev/reference/site-config
 export default defineVersionedConfig(
   {
-    title: "Versioned Docs",
-    description: "An example of a versioned documentation site.",
+    title: "Vitepress Versioning Plugin",
+    description: "A Vitepress plugin for versioning documentation.",
     cleanUrls: true,
 
     versioning: {
