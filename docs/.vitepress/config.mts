@@ -4,6 +4,7 @@ import { generateLocales } from "./generateLocales.mts";
 // https://vitepress.dev/reference/site-config
 export default defineVersionedConfig(
   {
+    ignoreDeadLinks: true,
     title: "Vitepress Versioning Plugin",
     description: "A Vitepress plugin for versioning documentation.",
     cleanUrls: true,
