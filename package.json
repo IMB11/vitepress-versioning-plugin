@@ -13,6 +13,7 @@
     "prepublish": "tsup",
     "build": "tsup",
     "docs": "vitepress dev docs"
+    "docs:build": "vitepress build docs"
   },
   "repository": {
     "type": "git",
