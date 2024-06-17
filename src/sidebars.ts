@@ -2,7 +2,7 @@ import JSON5 from "json5";
 import fs from "node:fs";
 import path from "node:path";
 import { DefaultTheme } from "vitepress";
-import { Version, VersionedSidebarConfig, VersionedSidebarItem } from "./types";
+import { Versioned } from "./types";
 
 /**
  * Replaces all links in the sidebar with their versioned equivalents.
@@ -12,9 +12,9 @@ import { Version, VersionedSidebarConfig, VersionedSidebarItem } from "./types";
  * @returns {DefaultTheme.SidebarItem[]} The sidebar with all links prepended with the version.
  */
 function replaceLinksRecursive(
-  sidebar: VersionedSidebarItem[],
-  config: VersionedSidebarConfig,
-  version: Version
+  sidebar: Versioned.SidebarItem[],
+  config: Versioned.SidebarConfig,
+  version: Versioned.Version
 ): DefaultTheme.SidebarItem[] {
   // Prepend the version to all links. `{VERSION}/$link`
   return sidebar.map((item) => {
@@ -41,9 +41,9 @@ function replaceLinksRecursive(
  * @returns {DefaultTheme.SidebarItem[]} The sidebar for the specified version.
  */
 function getSidebar(
-  config: VersionedSidebarConfig,
+  config: Versioned.SidebarConfig,
   dirname: string,
-  version: Version,
+  version: Versioned.Version,
   locale: string
 ): DefaultTheme.Sidebar {
   const sidebarPath = path.resolve(
@@ -60,7 +60,7 @@ function getSidebar(
     if (Array.isArray(sidebar)) {
       // Replace all links in the sidebar with their versioned equivalents.
       return replaceLinksRecursive(
-        sidebar as VersionedSidebarItem[],
+        sidebar as Versioned.SidebarItem[],
         config,
         (locale === "root" ? "" : `${locale}/`) + version
       );
@@ -71,7 +71,7 @@ function getSidebar(
       // Replace all links in the sidebar with their versioned equivalents.
       Object.keys(multiSidebar).forEach((key) => {
         multiSidebar[key] = replaceLinksRecursive(
-          multiSidebar[key] as VersionedSidebarItem[],
+          multiSidebar[key] as Versioned.SidebarItem[],
           config,
           (locale === "root" ? "" : `${locale}/`) + version
         );
@@ -89,9 +89,9 @@ function getSidebar(
  * @returns {DefaultTheme.SidebarMulti} A map of versions to their sidebars.
  */
 export function generateVersionSidebars(
-  config: VersionedSidebarConfig | false,
+  config: Versioned.SidebarConfig | false,
   dirname: string,
-  versions: Version[],
+  versions: Versioned.Version[],
   locales: string[]
 ): DefaultTheme.SidebarMulti {
   const versionSidebars: DefaultTheme.SidebarMulti = {};

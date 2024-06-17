@@ -1,14 +1,14 @@
 import { DefaultTheme } from "vitepress";
-import { Version, VersionSwitcherConfig } from "./types";
+import { Versioned } from "./types";
 
 /**
  * Generates a nav item for the version switcher, which contains all versions in the "versions" folder and the latest version.
  * @returns {DefaultTheme.NavItem} A nav item that contains all versions in the "versions" folder.
  */
 export function generateVersionSwitcher(
-  config: VersionSwitcherConfig | false,
-  versions: Version[],
-  latestVersion: Version | null
+  config: Versioned.SwitcherConfig | false,
+  versions: Versioned.Version[],
+  latestVersion: Versioned.Version | null
 ): DefaultTheme.NavItem | null {
   if (config === false) {
     return null;
