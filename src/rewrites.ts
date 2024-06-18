@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { Version, VersionRewritesConfig } from "./types";
+import { Versioned } from "./types";
 
 function getFilesRecursively(dirname: string, locales: string[]): string[] {
   let files: string[] = [];
@@ -30,9 +30,9 @@ function getFilesRecursively(dirname: string, locales: string[]): string[] {
  * @returns {Record<string, string>} A map of rewrite sources to their destinations.
  */
 export function generateVersionRewrites(
-  config: VersionRewritesConfig | false,
+  config: Versioned.RewritesConfig | false,
   dirname: string,
-  versions: Version[],
+  versions: Versioned.Version[],
   locales: string[] = []
 ): Record<string, string> {
   const versionRewrites: Record<string, string> = {};
