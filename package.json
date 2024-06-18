@@ -1,7 +1,7 @@
 {
   "name": "vitepress-versioning-plugin",
-  "version": "1.0.1",
-  "description": "This plugin adds versioning support to VitePress.",
+  "version": "1.0.2",
+  "description": "A highly customizable versioning plugin for VitePress v1",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
