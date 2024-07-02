@@ -1,3 +1,4 @@
+import { DefaultTheme } from "vitepress";
 import defineVersionedConfig from "../../src";
 import { generateLocales } from "./generateLocales.mts";
 
@@ -14,6 +15,12 @@ export default defineVersionedConfig(
       rewrites: {
         localePrefix: "translated",
       },
+      sidebars: {
+        sidebarContentProcessor(sidebar: DefaultTheme.SidebarMulti) {
+            console.log(sidebar["/guide/"]);
+            return sidebar;
+        },
+      }
     },
 
     rewrites: {

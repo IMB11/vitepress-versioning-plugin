@@ -1,20 +1,20 @@
-import { Version, VersionedConfig, VersionedThemeConfig } from "./types";
+import { Versioned } from "./types";
 
-const defaultThemeConfig: VersionedThemeConfig = {
+const defaultThemeConfig: Versioned.ThemeConfig = {
   versionSwitcher: {
     text: "Switch Version",
     includeLatestVersion: true,
   },
 };
 
-const defaultConfig: VersionedConfig = {
+const defaultConfig: Versioned.Config = {
   versioning: {
     latestVersion: null,
     sidebars: {
       processSidebarURLs: true,
-      sidebarPathResolver: (version: Version) =>
+      sidebarPathResolver: (version: Versioned.Version) =>
         `.vitepress/sidebars/versioned/${version}.json`,
-      sidebarUrlProcessor: (url: string, version: Version) =>
+      sidebarUrlProcessor: (url: string, version: Versioned.Version) =>
         `/${version}${url}`,
     },
     // navbars: {
@@ -28,12 +28,12 @@ const defaultConfig: VersionedConfig = {
       localePrefix: "",
       localeRewriteProcessor: (
         inputFilePath: string,
-        _version: Version,
+        _version: Versioned.Version,
         locale: string
       ) =>
         `${locale}/` +
         inputFilePath.replace("versions/", "").replace(`${locale}/`, ""),
-      rewriteProcessor: (inputFilePath: string, _version: Version) =>
+      rewriteProcessor: (inputFilePath: string, _version: Versioned.Version) =>
         inputFilePath.replace("versions/", ""),
     },
   },

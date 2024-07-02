@@ -118,5 +118,16 @@ export default function defineVersionedConfig(
     ),
   };
 
+  if(config.versioning.sidebars) {
+    if(config.versioning.sidebars.sidebarContentProcessor) {
+      // For all sidebars, in locales and main themeConfig
+      for (const locale of Object.keys(config.locales ?? {})) {
+        if(config.locales?.[locale]?.themeConfig) {
+          config.locales[locale].themeConfig.sidebar = config.versioning.sidebars.sidebarContentProcessor!(config.locales[locale].themeConfig.sidebar as DefaultTheme.SidebarMulti);
+        } 
+      }
+    }
+  }
+
   return config;
 }

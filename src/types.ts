@@ -69,6 +69,13 @@ export namespace Versioned {
      * @default (url: string, version: Version) => `/${version}${url}`
      */
     sidebarUrlProcessor?: (url: string, version: Version) => string;
+
+    /**
+     * Used to process the sidebar content further after versioning has been applied.
+     * @param sidebar Sidebar input.
+     * @returns Processed sidebar.
+     */
+    sidebarContentProcessor?: (sidebar: DefaultTheme.SidebarMulti) => DefaultTheme.SidebarMulti
   };
 
   //export type NavbarConfig = {
