@@ -118,15 +118,22 @@ export default function defineVersionedConfig(
     ),
   };
 
-  if(config.versioning.sidebars) {
-    if(config.versioning.sidebars.sidebarContentProcessor) {
-      // For all sidebars, in locales and main themeConfig
-      for (const locale of Object.keys(config.locales ?? {})) {
-        if(config.locales?.[locale]?.themeConfig) {
-          config.locales[locale].themeConfig.sidebar = config.versioning.sidebars.sidebarContentProcessor!(config.locales[locale].themeConfig.sidebar as DefaultTheme.SidebarMulti);
-        } 
+  try {
+    if(config.versioning.sidebars) {
+      if(config.versioning.sidebars.sidebarContentProcessor) {
+        // For all sidebars, in locales and main themeConfig
+        for (const locale of Object.keys(config.locales ?? {})) {
+          if(config.locales?.[locale]?.themeConfig) {
+            // @ts-ignore
+            config.locales[locale].themeConfig.sidebar = config.versioning.sidebars.sidebarContentProcessor!(config.locales[locale].themeConfig.sidebar as DefaultTheme.SidebarMulti);
+          } 
+        }
       }
     }
+  } catch (e) {
+    logger.error("Something went wrong when processing the sidebar content.")
+    logger.error(e as any);
+    logger.info("Reverting to pre-processed sidebar configs.");
   }
 
   return config;
