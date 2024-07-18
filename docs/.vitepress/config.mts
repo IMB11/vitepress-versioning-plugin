@@ -17,7 +17,7 @@ export default defineVersionedConfig(
       },
       sidebars: {
         sidebarContentProcessor(sidebar: DefaultTheme.SidebarMulti) {
-            console.log(sidebar["/guide/"]);
+            // console.log(sidebar["/guide/"]);
             return sidebar;
         },
       }

@@ -66,7 +66,10 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
             text: translations["configReference"],
             link:
               (locale === "root" ? "" : `/${locale}`) + "/config/",
-          }
+          },
+          {
+            component: 'NavVersion',
+          },
         ],
         sidebar: sidebarConfig,
         outline: "deep",

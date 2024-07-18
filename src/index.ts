@@ -80,7 +80,21 @@ export default function defineVersionedConfig(
     );
     if (versionSwitcher) {
       themeConfig.nav ??= [];
-      themeConfig.nav.push(versionSwitcher);
+      // themeConfig.nav.push(versionSwitcher);
+    }
+
+    // Add versioning props to navbar items
+    if (themeConfig.nav) {
+      themeConfig.nav = themeConfig.nav.map((item: any) => {
+        if (item.component) {
+          item.props ??= {};
+          item.props.versioningPlugin = {
+            versions,
+            latestVersion: config.versioning.latestVersion!,
+          };
+        }
+        return item;
+      });
     }
 
     // Generate the sidebars
@@ -135,6 +149,34 @@ export default function defineVersionedConfig(
     logger.error(e as any);
     logger.info("Reverting to pre-processed sidebar configs.");
   }
+
+  // For all components within themeConfig.nav and locale.themeConfig.nav, insert version information into the props.
+  if(config?.themeConfig?.nav) {
+  
+    // Recursive map function to process all items in the nav bar.
+    const processNavbarItemRecursive = (navbarItem: any): DefaultTheme.NavItem => {
+    
+      if (navbarItem?.items) {
+        navbarItem.items = navbarItem.items.map((item: any) =>
+          processNavbarItemRecursive(item)
+        ) as (DefaultTheme.NavItemWithLink | DefaultTheme.NavItemChildren)[];
+      }
+
+      if (navbarItem?.component) {
+        navbarItem.props ??= {};
+        navbarItem.props.versioningPlugin = {
+          versions,
+          latestVersion: config.versioning.latestVersion!,
+        }
+      }
+    
+      return navbarItem;
+    }
+
+    // Process all items in the nav bar.
+    config.themeConfig.nav = config.themeConfig.nav.map((item) => processNavbarItemRecursive(item));
+  }
+
 
   return config;
 }
