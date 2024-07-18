@@ -36,7 +36,7 @@ export default defineVersionedConfig({
 }, __dirname);
 ```
 
-You can further configure this plugin by adding additional properties to the `versioning` object and within the `themeConfig` object. For a full list of configuration options, see the [Configuration Reference](/configuration/).
+You can further configure this plugin by adding additional properties to the `versioning` object and within the `themeConfig` object. For a full list of configuration options, see the [Configuration Reference](../config.md)
 
 ## Localization Setup
 
