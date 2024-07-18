@@ -73,12 +73,9 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
         socialLinks: [
           {
             icon: "github",
-            link: translations[3],
+            link: "https://github.com/IMB11/vitepress-versioning-plugin",
           },
         ],
-        versionSwitcher: {
-          text: translations[4],
-        },
       },
     };
   }
