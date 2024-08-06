@@ -1,12 +1,12 @@
 import { LocaleConfig } from "vitepress";
-import { VersionedSidebar, VersionedThemeConfig } from "../../src/types";
+import type {Versioned} from "../../src/types";
 
 import English from "./i18n/en_us";
 import Test from "./i18n/test";
 // TODO: French translations
 // import French from "./i18n/fr_fr";
 
-export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
+export function generateLocales(): LocaleConfig<Versioned.ThemeConfig> {
   // Load localisation from ./i18n, load en_us.json into localisation["root"] whilst everything else is loaded into localisation[locale]
   const localisations = {
     root: English,
@@ -14,7 +14,7 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
     // fr: French
   }
 
-  const sidebarConfig: VersionedSidebar = {};
+  const sidebarConfig: Versioned.Sidebar = {};
   for (const locale of Object.keys(localisations)) {
     const translations = localisations[locale];
 
@@ -43,18 +43,16 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
     ];
   }
 
-  const localeConfig: LocaleConfig<VersionedThemeConfig> = {};
+  const localeConfig: LocaleConfig<Versioned.ThemeConfig> = {};
   for (const locale of Object.keys(localisations)) {
     const translations = localisations[locale];
 
     localeConfig[locale] = {
-      versioning: {
-        themeSwitcher: false
-      },
       label: translations[locale],
       lang: locale === "root" ? "en" : locale,
       link: (locale === "root" ? "" : `/${locale}`) + "/",
       themeConfig: {
+        versionSwitcher: false,
         nav: [
           {
             text: translations["home"],

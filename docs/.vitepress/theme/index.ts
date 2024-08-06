@@ -1,5 +1,4 @@
 import DefaultTheme from 'vitepress/theme'
-import { h } from 'vue'
 import VersionSwitcher from '../../../src/components/VersionSwitcher.vue'
 
 // Import style fixes and customizations.

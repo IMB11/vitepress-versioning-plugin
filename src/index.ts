@@ -80,7 +80,7 @@ export default function defineVersionedConfig(
     );
     if (versionSwitcher) {
       themeConfig.nav ??= [];
-      // themeConfig.nav.push(versionSwitcher);
+      themeConfig.nav.push(versionSwitcher);
     }
 
     // Add versioning props to navbar items

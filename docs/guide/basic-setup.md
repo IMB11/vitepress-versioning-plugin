@@ -38,6 +38,41 @@ export default defineVersionedConfig({
 
 You can further configure this plugin by adding additional properties to the `versioning` object and within the `themeConfig` object. For a full list of configuration options, see the [Configuration Reference](../config.md)
 
+## Using the Version Switcher Component
+
+If you want to use a more advanced version switcher component, such as the one used on this website, you can import the `VersionSwitcher` component from the plugin, register it in your theme config, and then use it within your navbar.
+
+::: warning
+You will need to set `themeConfig.versionSwitcher` to `false` to hide the basic version switcher.
+:::
+
+```ts
+import { Theme } from 'vitepress';
+import DefaultTheme from 'vitepress/theme'
+import VersionSwitcher from 'vitepress-versioning-plugin/src/components/VersionSwitcher.vue' // [!code focus]
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) { // [!code focus]
+    app.component('VersionSwitcher', VersionSwitcher) // [!code focus]
+  } // [!code focus]
+} satisfies Theme;
+```
+
+Add it to your navbar:
+
+```ts
+themeConfig: {
+  versionSwitcher: false,
+  nav: [
+    ...,
+    { // [!code focus]
+      component: 'VersionSwitcher', // [!code focus]
+    }, // [!code focus]
+  ]
+}
+```
+
 ## Localization Setup
 
 Whilst the plugin provides support for versioning, it automatically supports localization **only for pages.**
