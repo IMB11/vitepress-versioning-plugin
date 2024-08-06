@@ -48,6 +48,9 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
     const translations = localisations[locale];
 
     localeConfig[locale] = {
+      versioning: {
+        themeSwitcher: false
+      },
       label: translations[locale],
       lang: locale === "root" ? "en" : locale,
       link: (locale === "root" ? "" : `/${locale}`) + "/",
@@ -68,7 +71,7 @@ export function generateLocales(): LocaleConfig<VersionedThemeConfig> {
               (locale === "root" ? "" : `/${locale}`) + "/config/",
           },
           {
-            component: 'NavVersion',
+            component: 'VersionSwitcher',
           },
         ],
         sidebar: sidebarConfig,
