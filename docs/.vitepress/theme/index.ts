@@ -1,14 +1,17 @@
-import DefaultTheme from 'vitepress/theme'
+// https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
-import VersionSwitcher from '../../../src/components/VersionSwitcher.vue'
-
-// Import style fixes and customizations.
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
 import './style.css'
-import { Theme } from 'vitepress';
 
 export default {
   extends: DefaultTheme,
-  enhanceApp({ app }) {
-    app.component('VersionSwitcher', VersionSwitcher)
+  Layout: () => {
+    return h(DefaultTheme.Layout, null, {
+      // https://vitepress.dev/guide/extending-default-theme#layout-slots
+    })
+  },
+  enhanceApp({ app, router, siteData }) {
+    // ...
   }
-} satisfies Theme;
+} satisfies Theme
