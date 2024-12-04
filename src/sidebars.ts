@@ -103,7 +103,7 @@ export function generateVersionSidebars(
 
       if (Array.isArray(sidebar)) {
         versionSidebars[
-          (locale === "root" ? "" : `/${locale}`) + `/${version}`
+          (locale === "root" ? "" : `/${locale}`) + `/${version}/`
         ] = sidebar;
       } else {
         Object.keys(sidebar).forEach((key) => {
