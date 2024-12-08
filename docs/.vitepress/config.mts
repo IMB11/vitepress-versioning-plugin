@@ -11,7 +11,7 @@ export default defineVersionedConfig(
     cleanUrls: true,
 
     versioning: {
-      latestVersion: "1.2.0",
+      latestVersion: "1.3.0",
       rewrites: {
         localePrefix: "translated",
       },
