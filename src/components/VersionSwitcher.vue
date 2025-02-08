@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouter } from "vitepress"
+import { useData, useRouter } from "vitepress"
 import { computed, ref } from 'vue'
 import VPMenuLink from 'vitepress/dist/client/theme-default/components/VPMenuLink.vue'
 import VPFlyout from 'vitepress/dist/client/theme-default/components/VPFlyout.vue'
@@ -9,12 +9,13 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
+const { site } = useData();
 
 const currentVersion = computed(() => {
   let version = props.versioningPlugin.latestVersion;
 
   for (const v of props.versioningPlugin.versions) {
-    if (router.route.path.startsWith(`/${v}/`)) {
+    if (router.route.path.startsWith(`${site.value.base}${v}/`)) {
       version = v;
       break;
     }
