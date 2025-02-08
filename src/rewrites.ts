@@ -44,7 +44,7 @@ export function generateVersionRewrites(
   for (const version of versions) {
     // Get all files recursively in the version folder
     const files = getFilesRecursively(
-      path.resolve(versionsDir, version),
+      path.posix.join(versionsDir, version),
       locales
     );
 
