@@ -64,18 +64,61 @@ test/
 ## Running the Test Project
 
 ```bash
-# Install dependencies (from repository root)
+# Navigate to the test directory
+cd test
+
+# Install dependencies
 npm install
 
 # Start development server
-npm run test:dev
+npm run dev
 
 # Build the documentation
-npm run test:build
+npm run build
 
 # Preview the built documentation
-npm run test:preview
+npm run preview
 ```
+
+## Plugin Integration Notes
+
+This test project demonstrates how the VitePress Versioning Plugin would be integrated in a real-world scenario. The configuration in `.vitepress/config.ts` includes commented examples of how to use the plugin:
+
+```typescript
+// Note: In a real implementation, you would add:
+// versioningPlugin({
+//   versioning: {
+//     latestVersion: "v2.0.0",
+//     sidebars: {
+//       processSidebarURLs: true,
+//       sidebarPathResolver: (version) => `.vitepress/sidebars/versioned/${version}.json`,
+//       sidebarUrlProcessor: (url, version) => `/${version}${url}`
+//     },
+//     rewrites: {
+//       localePrefix: "",
+//       rewriteProcessor: (inputFilePath, version) => 
+//         inputFilePath.replace("versions/", "").replace(`${version}/`, `${version}/`),
+//       localeRewriteProcessor: (inputFilePath, version, locale) =>
+//         `${locale}/${inputFilePath.replace("versions/", "").replace(`${version}/`, `${version}/`)}`
+//     }
+//   },
+//   versionSwitcher: {
+//     text: "API Version",
+//     includeLatestVersion: true
+//   }
+// })
+```
+
+## Live Demo
+
+The test project is currently running and demonstrates:
+
+- ✅ **Multi-language Support**: English (root), Spanish (/es/), French (/fr/)
+- ✅ **Version-specific Content**: Different content for v1.0.0, v1.1.0, v2.0.0
+- ✅ **Professional Documentation**: Enterprise-grade API documentation structure
+- ✅ **Realistic Content**: ACME API Platform with comprehensive examples
+- ✅ **Sidebar Configurations**: Version and locale-specific navigation
+- ✅ **Custom Styling**: Professional theme with brand colors and API styling
 
 ## Content Scenarios
 

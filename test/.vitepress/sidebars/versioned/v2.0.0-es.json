@@ -1,0 +1,141 @@
+{
+  "/es/api/": [
+    {
+      "text": "Referencia API",
+      "items": [
+        { "text": "Visión General", "link": "/es/api/" },
+        { "text": "Autenticación", "link": "/es/api/authentication" },
+        { "text": "Limitación de Velocidad", "link": "/es/api/rate-limiting" },
+        { "text": "Manejo de Errores", "link": "/es/api/errors" }
+      ]
+    },
+    {
+      "text": "Gestión de Usuarios",
+      "items": [
+        { "text": "API de Usuarios", "link": "/es/api/users" },
+        { "text": "Autenticación", "link": "/es/api/auth" },
+        { "text": "Roles y Permisos", "link": "/es/api/permissions" },
+        { "text": "Sesiones de Usuario", "link": "/es/api/sessions" }
+      ]
+    },
+    {
+      "text": "Pagos",
+      "items": [
+        { "text": "API de Pagos", "link": "/es/api/payments" },
+        { "text": "Suscripciones", "link": "/es/api/subscriptions" },
+        { "text": "Facturas", "link": "/es/api/invoices" },
+        { "text": "Reembolsos", "link": "/es/api/refunds" },
+        { "text": "Métodos de Pago", "link": "/es/api/payment-methods" }
+      ]
+    },
+    {
+      "text": "Análisis",
+      "items": [
+        { "text": "API de Análisis", "link": "/es/api/analytics" },
+        { "text": "Seguimiento de Eventos", "link": "/es/api/events" },
+        { "text": "Reportes", "link": "/es/api/reports" },
+        { "text": "Métricas", "link": "/es/api/metrics" },
+        { "text": "Paneles", "link": "/es/api/dashboards" }
+      ]
+    },
+    {
+      "text": "Notificaciones",
+      "items": [
+        { "text": "API de Notificaciones", "link": "/es/api/notifications" },
+        { "text": "Email", "link": "/es/api/notifications/email" },
+        { "text": "SMS", "link": "/es/api/notifications/sms" },
+        { "text": "Notificaciones Push", "link": "/es/api/notifications/push" },
+        { "text": "WebSockets", "link": "/es/api/notifications/websockets" },
+        { "text": "Webhooks", "link": "/es/api/notifications/webhooks" },
+        { "text": "Plantillas", "link": "/es/api/notifications/templates" }
+      ]
+    }
+  ],
+  "/es/guides/": [
+    {
+      "text": "Guías de Desarrollador",
+      "items": [
+        { "text": "Comenzar", "link": "/es/guides/" },
+        { "text": "Inicio Rápido", "link": "/es/guides/quickstart" },
+        { "text": "Mejores Prácticas", "link": "/es/guides/best-practices" }
+      ]
+    },
+    {
+      "text": "Autenticación y Seguridad",
+      "items": [
+        { "text": "Guía de Autenticación", "link": "/es/guides/authentication" },
+        { "text": "OAuth 2.0", "link": "/es/guides/oauth" },
+        { "text": "Tokens JWT", "link": "/es/guides/jwt" },
+        { "text": "Seguridad API", "link": "/es/guides/security" },
+        { "text": "Seguridad de Webhooks", "link": "/es/guides/webhooks-security" }
+      ]
+    },
+    {
+      "text": "Guías de Integración",
+      "items": [
+        { "text": "Visión General SDKs", "link": "/es/guides/sdks" },
+        { "text": "JavaScript/Node.js", "link": "/es/guides/javascript" },
+        { "text": "Python", "link": "/es/guides/python" },
+        { "text": "PHP", "link": "/es/guides/php" },
+        { "text": "Ruby", "link": "/es/guides/ruby" },
+        { "text": "Java", "link": "/es/guides/java" }
+      ]
+    },
+    {
+      "text": "Temas Avanzados",
+      "items": [
+        { "text": "Limitación de Velocidad", "link": "/es/guides/rate-limiting" },
+        { "text": "Manejo de Errores", "link": "/es/guides/error-handling" },
+        { "text": "Webhooks", "link": "/es/guides/webhooks" },
+        { "text": "Características en Tiempo Real", "link": "/es/guides/realtime" },
+        { "text": "Operaciones por Lotes", "link": "/es/guides/batch" }
+      ]
+    },
+    {
+      "text": "Migración y Actualizaciones",
+      "items": [
+        { "text": "Migración desde v1.x", "link": "/es/guides/migration-v2" },
+        { "text": "Cambios Incompatibles", "link": "/es/guides/breaking-changes" },
+        { "text": "Guía de Actualización", "link": "/es/guides/upgrade" },
+        { "text": "Política de Obsolescencia", "link": "/es/guides/deprecation" }
+      ]
+    }
+  ],
+  "/es/": [
+    {
+      "text": "Comenzar",
+      "items": [
+        { "text": "Introducción", "link": "/es/" },
+        { "text": "Inicio Rápido", "link": "/es/getting-started" },
+        { "text": "Visión General API", "link": "/es/api/" }
+      ]
+    },
+    {
+      "text": "Documentación",
+      "items": [
+        { "text": "Referencia API", "link": "/es/api/" },
+        { "text": "Guías de Desarrollador", "link": "/es/guides/" },
+        { "text": "Resolución de Problemas", "link": "/es/troubleshooting/" },
+        { "text": "FAQ", "link": "/es/faq" }
+      ]
+    },
+    {
+      "text": "Recursos",
+      "items": [
+        { "text": "SDKs y Librerías", "link": "/es/guides/sdks" },
+        { "text": "Ejemplos de Código", "link": "/es/examples" },
+        { "text": "Colección Postman", "link": "/es/postman" },
+        { "text": "Especificación OpenAPI", "link": "/es/openapi" }
+      ]
+    },
+    {
+      "text": "Soporte",
+      "items": [
+        { "text": "Foro de la Comunidad", "link": "https://community.acme.com" },
+        { "text": "Portal de Soporte", "link": "https://support.acme.com" },
+        { "text": "Página de Estado", "link": "https://status.acme.com" },
+        { "text": "Contáctanos", "link": "/es/contact" }
+      ]
+    }
+  ]
+}

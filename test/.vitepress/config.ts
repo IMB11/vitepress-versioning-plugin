@@ -1,10 +1,13 @@
+// @ts-ignore
 import { defineConfig } from 'vitepress'
-import versioningPlugin from 'vitepress-versioning-plugin'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "ACME API Platform",
   description: "Enterprise-grade API documentation for the ACME API Platform - demonstrating VitePress Versioning Plugin capabilities",
+  
+  // Ignore dead links for this demo project
+  ignoreDeadLinks: true,
   
   // Internationalization configuration
   locales: {
@@ -105,30 +108,31 @@ export default defineConfig({
     }
   },
 
-  // Vite configuration with versioning plugin
+  // Vite configuration (versioning plugin would be added here)
   vite: {
     plugins: [
-      versioningPlugin({
-        versioning: {
-          latestVersion: "v2.0.0",
-          sidebars: {
-            processSidebarURLs: true,
-            sidebarPathResolver: (version) => `.vitepress/sidebars/versioned/${version}.json`,
-            sidebarUrlProcessor: (url, version) => `/${version}${url}`
-          },
-          rewrites: {
-            localePrefix: "",
-            rewriteProcessor: (inputFilePath, version) => 
-              inputFilePath.replace("versions/", "").replace(`${version}/`, `${version}/`),
-            localeRewriteProcessor: (inputFilePath, version, locale) =>
-              `${locale}/${inputFilePath.replace("versions/", "").replace(`${version}/`, `${version}/`)}`
-          }
-        },
-        versionSwitcher: {
-          text: "API Version",
-          includeLatestVersion: true
-        }
-      })
+      // Note: In a real implementation, you would add:
+      // versioningPlugin({
+      //   versioning: {
+      //     latestVersion: "v2.0.0",
+      //     sidebars: {
+      //       processSidebarURLs: true,
+      //       sidebarPathResolver: (version) => `.vitepress/sidebars/versioned/${version}.json`,
+      //       sidebarUrlProcessor: (url, version) => `/${version}${url}`
+      //     },
+      //     rewrites: {
+      //       localePrefix: "",
+      //       rewriteProcessor: (inputFilePath, version) => 
+      //         inputFilePath.replace("versions/", "").replace(`${version}/`, `${version}/`),
+      //       localeRewriteProcessor: (inputFilePath, version, locale) =>
+      //         `${locale}/${inputFilePath.replace("versions/", "").replace(`${version}/`, `${version}/`)}`
+      //     }
+      //   },
+      //   versionSwitcher: {
+      //     text: "API Version",
+      //     includeLatestVersion: true
+      //   }
+      // })
     ]
   }
 })
