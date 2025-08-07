@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import versioningPlugin from "../../src/plugin";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -26,6 +27,8 @@ export default defineConfig({
     ]
   },
   vite: {
-    plugins: []
+    plugins: [versioningPlugin({
+      
+    })]
   }
 })
