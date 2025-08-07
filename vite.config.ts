@@ -24,7 +24,8 @@ export default defineConfig({
         "node:fs",
         "node:path",
         "cli-color",
-        "lodash"
+        "lodash",
+        "json5"
       ],
       output: {
         globals: {
