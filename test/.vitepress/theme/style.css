@@ -1,0 +1,113 @@
+/* Custom styles for ACME API Platform documentation */
+
+:root {
+  --vp-c-brand-1: #0ea5e9;
+  --vp-c-brand-2: #0284c7;
+  --vp-c-brand-3: #0369a1;
+  
+  --vp-c-brand-soft: rgba(14, 165, 233, 0.14);
+  --vp-c-brand-softer: rgba(14, 165, 233, 0.07);
+  --vp-c-brand-softerer: rgba(14, 165, 233, 0.04);
+}
+
+.dark {
+  --vp-c-brand-1: #38bdf8;
+  --vp-c-brand-2: #0ea5e9;
+  --vp-c-brand-3: #0284c7;
+  
+  --vp-c-brand-soft: rgba(56, 189, 248, 0.16);
+  --vp-c-brand-softer: rgba(56, 189, 248, 0.08);
+  --vp-c-brand-softerer: rgba(56, 189, 248, 0.04);
+}
+
+/* API endpoint styling */
+.api-endpoint {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+}
+
+.api-method {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.api-method.get { background: #10b981; color: white; }
+.api-method.post { background: #3b82f6; color: white; }
+.api-method.put { background: #f59e0b; color: white; }
+.api-method.delete { background: #ef4444; color: white; }
+
+.api-url {
+  font-family: var(--vp-font-family-mono);
+  background: var(--vp-c-bg-mute);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Version badge styling */
+.version-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.deprecated {
+  background: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fcd34d;
+}
+
+.new-feature {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+/* Code example styling */
+.code-example {
+  margin: 1rem 0;
+}
+
+.code-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--vp-c-divider);
+  margin-bottom: 0;
+}
+
+.code-tab {
+  padding: 0.5rem 1rem;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-bottom: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.code-tab.active {
+  background: var(--vp-c-bg);
+  border-bottom: 1px solid var(--vp-c-bg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .api-endpoint {
+    padding: 0.75rem;
+  }
+  
+  .api-method {
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+  }
+}

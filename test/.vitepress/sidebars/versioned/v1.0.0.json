@@ -1,0 +1,77 @@
+{
+  "/api/": [
+    {
+      "text": "API Reference",
+      "items": [
+        { "text": "Overview", "link": "/api/" },
+        { "text": "Authentication", "link": "/api/authentication" },
+        { "text": "Rate Limiting", "link": "/api/rate-limiting" },
+        { "text": "Error Handling", "link": "/api/errors" }
+      ]
+    },
+    {
+      "text": "User Management",
+      "items": [
+        { "text": "Users API", "link": "/api/users" },
+        { "text": "Basic Authentication", "link": "/api/auth" },
+        { "text": "User Roles", "link": "/api/permissions" }
+      ]
+    },
+    {
+      "text": "Payments",
+      "items": [
+        { "text": "Payments API", "link": "/api/payments" },
+        { "text": "Basic Subscriptions", "link": "/api/subscriptions" },
+        { "text": "Simple Invoices", "link": "/api/invoices" }
+      ]
+    }
+  ],
+  "/guides/": [
+    {
+      "text": "Developer Guides",
+      "items": [
+        { "text": "Getting Started", "link": "/guides/" },
+        { "text": "Quick Start", "link": "/guides/quickstart" }
+      ]
+    },
+    {
+      "text": "Authentication",
+      "items": [
+        { "text": "Basic Authentication", "link": "/guides/authentication" },
+        { "text": "API Keys", "link": "/guides/api-keys" }
+      ]
+    },
+    {
+      "text": "Integration",
+      "items": [
+        { "text": "JavaScript", "link": "/guides/javascript" },
+        { "text": "Python", "link": "/guides/python" }
+      ]
+    }
+  ],
+  "/": [
+    {
+      "text": "Getting Started",
+      "items": [
+        { "text": "Introduction", "link": "/" },
+        { "text": "Quick Start", "link": "/getting-started" },
+        { "text": "API Overview", "link": "/api/" }
+      ]
+    },
+    {
+      "text": "Documentation",
+      "items": [
+        { "text": "API Reference", "link": "/api/" },
+        { "text": "Developer Guides", "link": "/guides/" },
+        { "text": "Basic Troubleshooting", "link": "/troubleshooting/" }
+      ]
+    },
+    {
+      "text": "Support",
+      "items": [
+        { "text": "Support Portal", "link": "https://support.acme.com" },
+        { "text": "Contact Us", "link": "/contact" }
+      ]
+    }
+  ]
+}

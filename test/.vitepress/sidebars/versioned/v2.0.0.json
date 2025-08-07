@@ -1,0 +1,141 @@
+{
+  "/api/": [
+    {
+      "text": "API Reference",
+      "items": [
+        { "text": "Overview", "link": "/api/" },
+        { "text": "Authentication", "link": "/api/authentication" },
+        { "text": "Rate Limiting", "link": "/api/rate-limiting" },
+        { "text": "Error Handling", "link": "/api/errors" }
+      ]
+    },
+    {
+      "text": "User Management",
+      "items": [
+        { "text": "Users API", "link": "/api/users" },
+        { "text": "Authentication", "link": "/api/auth" },
+        { "text": "Roles & Permissions", "link": "/api/permissions" },
+        { "text": "User Sessions", "link": "/api/sessions" }
+      ]
+    },
+    {
+      "text": "Payments",
+      "items": [
+        { "text": "Payments API", "link": "/api/payments" },
+        { "text": "Subscriptions", "link": "/api/subscriptions" },
+        { "text": "Invoices", "link": "/api/invoices" },
+        { "text": "Refunds", "link": "/api/refunds" },
+        { "text": "Payment Methods", "link": "/api/payment-methods" }
+      ]
+    },
+    {
+      "text": "Analytics",
+      "items": [
+        { "text": "Analytics API", "link": "/api/analytics" },
+        { "text": "Events Tracking", "link": "/api/events" },
+        { "text": "Reports", "link": "/api/reports" },
+        { "text": "Metrics", "link": "/api/metrics" },
+        { "text": "Dashboards", "link": "/api/dashboards" }
+      ]
+    },
+    {
+      "text": "Notifications",
+      "items": [
+        { "text": "Notifications API", "link": "/api/notifications" },
+        { "text": "Email", "link": "/api/notifications/email" },
+        { "text": "SMS", "link": "/api/notifications/sms" },
+        { "text": "Push Notifications", "link": "/api/notifications/push" },
+        { "text": "WebSockets", "link": "/api/notifications/websockets" },
+        { "text": "Webhooks", "link": "/api/notifications/webhooks" },
+        { "text": "Templates", "link": "/api/notifications/templates" }
+      ]
+    }
+  ],
+  "/guides/": [
+    {
+      "text": "Developer Guides",
+      "items": [
+        { "text": "Getting Started", "link": "/guides/" },
+        { "text": "Quick Start", "link": "/guides/quickstart" },
+        { "text": "Best Practices", "link": "/guides/best-practices" }
+      ]
+    },
+    {
+      "text": "Authentication & Security",
+      "items": [
+        { "text": "Authentication Guide", "link": "/guides/authentication" },
+        { "text": "OAuth 2.0", "link": "/guides/oauth" },
+        { "text": "JWT Tokens", "link": "/guides/jwt" },
+        { "text": "API Security", "link": "/guides/security" },
+        { "text": "Webhooks Security", "link": "/guides/webhooks-security" }
+      ]
+    },
+    {
+      "text": "Integration Guides",
+      "items": [
+        { "text": "SDKs Overview", "link": "/guides/sdks" },
+        { "text": "JavaScript/Node.js", "link": "/guides/javascript" },
+        { "text": "Python", "link": "/guides/python" },
+        { "text": "PHP", "link": "/guides/php" },
+        { "text": "Ruby", "link": "/guides/ruby" },
+        { "text": "Java", "link": "/guides/java" }
+      ]
+    },
+    {
+      "text": "Advanced Topics",
+      "items": [
+        { "text": "Rate Limiting", "link": "/guides/rate-limiting" },
+        { "text": "Error Handling", "link": "/guides/error-handling" },
+        { "text": "Webhooks", "link": "/guides/webhooks" },
+        { "text": "Real-time Features", "link": "/guides/realtime" },
+        { "text": "Batch Operations", "link": "/guides/batch" }
+      ]
+    },
+    {
+      "text": "Migration & Updates",
+      "items": [
+        { "text": "Migration from v1.x", "link": "/guides/migration-v2" },
+        { "text": "Breaking Changes", "link": "/guides/breaking-changes" },
+        { "text": "Upgrade Guide", "link": "/guides/upgrade" },
+        { "text": "Deprecation Policy", "link": "/guides/deprecation" }
+      ]
+    }
+  ],
+  "/": [
+    {
+      "text": "Getting Started",
+      "items": [
+        { "text": "Introduction", "link": "/" },
+        { "text": "Quick Start", "link": "/getting-started" },
+        { "text": "API Overview", "link": "/api/" }
+      ]
+    },
+    {
+      "text": "Documentation",
+      "items": [
+        { "text": "API Reference", "link": "/api/" },
+        { "text": "Developer Guides", "link": "/guides/" },
+        { "text": "Troubleshooting", "link": "/troubleshooting/" },
+        { "text": "FAQ", "link": "/faq" }
+      ]
+    },
+    {
+      "text": "Resources",
+      "items": [
+        { "text": "SDKs & Libraries", "link": "/guides/sdks" },
+        { "text": "Code Examples", "link": "/examples" },
+        { "text": "Postman Collection", "link": "/postman" },
+        { "text": "OpenAPI Spec", "link": "/openapi" }
+      ]
+    },
+    {
+      "text": "Support",
+      "items": [
+        { "text": "Community Forum", "link": "https://community.acme.com" },
+        { "text": "Support Portal", "link": "https://support.acme.com" },
+        { "text": "Status Page", "link": "https://status.acme.com" },
+        { "text": "Contact Us", "link": "/contact" }
+      ]
+    }
+  ]
+}

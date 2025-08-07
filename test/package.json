@@ -1,0 +1,19 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "This is a comprehensive test project demonstrating all features of the VitePress Versioning Plugin through realistic enterprise-level API documentation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-color": "^2.0.4",
+    "json5": "^2.2.3",
+    "lodash": "^4.17.21",
+    "vitepress": "^1.6.4",
+    "vitepress-versioning-plugin": "file:.."
+  }
+}
