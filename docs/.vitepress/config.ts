@@ -27,8 +27,6 @@ export default defineConfig({
     ]
   },
   vite: {
-    plugins: [versioningPlugin({
-      
-    })]
+    plugins: []
   }
 })
